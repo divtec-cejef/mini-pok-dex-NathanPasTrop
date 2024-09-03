@@ -28,7 +28,7 @@ const typeColors = {
 };
 
 // Tableau d'objets représentant les Pokémon
-const pokemons = [
+const pokemonsTab = [
     { name: 'Pikachu', type: 'Électrique', level: 35, img: 'pikachu.png' },
     { name: 'Bulbizarre', type: 'Plante,Poison', level: 15, img: 'bulbizarre.png' },
     { name: 'Salamèche', type: 'Feu', level: 20, img: 'salameche.png' },
@@ -48,24 +48,33 @@ const pokemons = [
     { name: 'Mewtwo', type: 'Psy', level: 70, img: 'mewtwo.png' }
 ];
 
-const cartePokemon = document.querySelector('.pokemon-container');
+const containerPokemon = document.querySelector('.pokemon-container');
 
 /**
  * Affiche tout les pokémons présent dans le tableau
  */
 function displayPokemons() {
-    if (!pokemons.length) {
-        cartePokemon.innerHTML += `<p>Dracaufeu a tout brûlé, aucun Pokémon ne 
+    containerPokemon.innerHTML = "";
+    if (!pokemonsTab.length) {
+        containerPokemon.innerHTML += `<p>Dracaufeu a tout brûlé, aucun Pokémon ne 
                                       correspond à ta recherche !</p>`;
-    } else {
+        return;
+    }
 
-        for (let index = 0; index < pokemons.length; index++) {
-            cartePokemon.innerHTML += `<p>${pokemons.at(index).name}
-            <small>${pokemons.at(index).type.split(",", 1)}</small></p>`;
-        }
+    for (let index = 0; index < pokemonsTab.length; index++) {
+        containerPokemon.innerHTML += generatePokemonCardHTML(pokemonsTab[index]);
     }
 }
 
-window.addEventListener('load', () => {
-    displayPokemons();
-});
+function generatePokemonCardHTML(pokemon) {
+    let containerPokemonContenu = `<p>${pokemon.name}
+        <small>${pokemon.type.split(",", 1)}</small>`;
+    if (pokemon.type.split(",")[1]) {
+        containerPokemonContenu += `<small>${pokemon.type.split(",")[1]}</small>`;
+    } else {
+        containerPokemonContenu += `</p>`
+    }
+    return containerPokemonContenu;
+}
+
+displayPokemons();
