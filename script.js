@@ -56,8 +56,8 @@ const containerPokemon = document.querySelector('.pokemon-container');
 function displayPokemons() {
     containerPokemon.innerHTML = "";
     if (!pokemonsTab.length) {
-        containerPokemon.innerHTML += `<p>Dracaufeu a tout brûlé, aucun Pokémon ne 
-                                      correspond à ta recherche !</p>`;
+        containerPokemon.innerHTML += `<p>Mega Rayquaza utilise Draco-assencion, 
+                                        les pokémons de ta recherche sont KO</p>`;
         return;
     }
 
@@ -66,16 +66,26 @@ function displayPokemons() {
     }
 }
 
+/**
+ * Fonction qui retourne le code html d'un pokémon
+ * @param pokemon un objet pokémon
+ * @returns {string} le code html d'un pokémon
+ */
 function generatePokemonCardHTML(pokemon) {
-    let containerPokemonContenu = `<div class="pokemon-card" style="background: #705898;">
-        <img src="images/${pokemon.img}" alt="Le pokémon ${pokemon.name}"> 
-        <h2>${pokemon.name}</h2><div>Type : ${pokemon.type.split(",")[0]}`;
-    if (pokemon.type.split(",")[1]) {
-        containerPokemonContenu += ` / ${pokemon.type.split(",")[1]}`;
-    }
-    containerPokemonContenu += `</div><div>Niveau: ${pokemon.level}</div></div>`
+    let tabType = pokemon.type.split(',');
+    let couleursBackground = `background: ${typeColors[tabType[0]]};`;
+    if (tabType.length === 2) {
+        couleursBackground = `background: linear-gradient(to right, ${typeColors[tabType[0]]}
+                                50%, ${typeColors[tabType[1]]} 50%);`
+            }
+            return `
+            <div class="pokemon-card" style="${couleursBackground}">
+                <img src="images/${pokemon.img}" alt="Le pokémon ${pokemon.name}"/>
+                <h2>${pokemon.name}</h2>
+                <div>Type : ${pokemon.type.replace(',', ' / ')}</div>
+                <div>Niveau: ${pokemon.level}</div>
+            </div>
+            `;
+            }
 
-    return containerPokemonContenu;
-}
-
-displayPokemons();
+            displayPokemons();
