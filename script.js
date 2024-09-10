@@ -73,13 +73,13 @@ function displayPokemons() {
  */
 function generatePokemonCardHTML(pokemon) {
     let tabType = pokemon.type.split(',');
-    let couleursBackground = `background: ${typeColors[tabType[0]]};`;
+    let couleursBackground = `${typeColors[tabType[0]]}`;
     if (tabType.length === 2) {
-        couleursBackground = `background: linear-gradient(to right, ${typeColors[tabType[0]]}
-                                50%, ${typeColors[tabType[1]]} 50%);`
+        couleursBackground = `linear-gradient(to right, ${typeColors[tabType[0]]}
+                                50%, ${typeColors[tabType[1]]} 50%)`
             }
             return `
-            <div class="pokemon-card" style="${couleursBackground}">
+            <div class="pokemon-card" style="background: ${couleursBackground};">
                 <img src="images/${pokemon.img}" alt="Le pokémon ${pokemon.name}"/>
                 <h2>${pokemon.name}</h2>
                 <div>Type : ${pokemon.type.replace(',', ' / ')}</div>
