@@ -69,7 +69,7 @@ function displayPokemons() {
 function generatePokemonCardHTML(pokemon) {
     let containerPokemonContenu = `<div class="pokemon-card" style="background: #705898;">
         <img src="images/${pokemon.img}" alt="Le pokémon ${pokemon.name}"> 
-        <h2>${pokemon.name}</h2><div>Type : ${pokemon.type.split(",", 1)}`;
+        <h2>${pokemon.name}</h2><div>Type : ${pokemon.type.split(",")[0]}`;
     if (pokemon.type.split(",")[1]) {
         containerPokemonContenu += ` / ${pokemon.type.split(",")[1]}`;
     }
