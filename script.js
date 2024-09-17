@@ -86,12 +86,11 @@ function generatePokemonCardHTML(pokemon) {
             </div>`;
 }
 
-pokemonsTab.sort((a, b) => a.level - b.level);
 displayPokemons(pokemonsTab);
 
 const searchBar = document.getElementById('search-bar');
 const selectType = document.getElementById('type-filter');
-const sortOrder = document.getElementById('sort-order');
+const selectOrder = document.getElementById('sort-order');
 
 
 function filterAndSortPokemons() {
@@ -101,8 +100,16 @@ function filterAndSortPokemons() {
     let type = selectType.value
     resultat = resultat.filter(pokemon => pokemon.type.includes(type));
 
-    resultat = resultat.sort((a, b) => a.level - b.level);
-
+    let ordre = selectOrder.value;
+    if (ordre === "name-asc") {
+        resultat.sort((a, b) => a.name.localeCompare(b, "fr"));
+    } else if (ordre === "name-desc") {
+        resultat.sort((a, b) => b.name.localeCompare(a, "fr"));
+    } else if (ordre === "level-asc") {
+        resultat.sort((a, b) => a.level - b.level);
+    } else if (ordre === "level-desc") {
+        resultat.sort((a, b) => b.level - a.level);
+    }
     displayPokemons(resultat);
 }
 
@@ -110,6 +117,6 @@ filterAndSortPokemons();
 
 searchBar.addEventListener('input', filterAndSortPokemons);
 selectType.addEventListener('change', filterAndSortPokemons);
-sortOrder.addEventListener('change', filterAndSortPokemons);
+selectOrder.addEventListener('change', filterAndSortPokemons);
 
 
