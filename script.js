@@ -53,16 +53,16 @@ const containerPokemon = document.querySelector('.pokemon-container');
 /**
  * Affiche tout les pokémons présent dans le tableau
  */
-function displayPokemons() {
+function displayPokemons(pokemonsAAfficher) {
     containerPokemon.innerHTML = "";
-    if (!pokemonsTab.length) {
+    if (!pokemonsAAfficher.length) {
         containerPokemon.innerHTML += `<p>Mega Rayquaza utilise Draco-assencion, 
                                         les pokémons de ta recherche sont KO</p>`;
         return;
     }
 
-    for (let index = 0; index < pokemonsTab.length; index++) {
-        containerPokemon.innerHTML += generatePokemonCardHTML(pokemonsTab[index]);
+    for (let index = 0; index < pokemonsAAfficher.length; index++) {
+        containerPokemon.innerHTML += generatePokemonCardHTML(pokemonsAAfficher[index]);
     }
 }
 
@@ -77,15 +77,39 @@ function generatePokemonCardHTML(pokemon) {
     if (tabType.length === 2) {
         couleursBackground = `linear-gradient(to right, ${typeColors[tabType[0]]}
                                 50%, ${typeColors[tabType[1]]} 50%)`
-            }
-            return `
-            <div class="pokemon-card" style="background: ${couleursBackground};">
+    }
+    return `<div class="pokemon-card" style="background: ${couleursBackground};">
                 <img src="images/${pokemon.img}" alt="Le pokémon ${pokemon.name}"/>
                 <h2>${pokemon.name}</h2>
                 <div>Type : ${pokemon.type.replace(',', ' / ')}</div>
                 <div>Niveau: ${pokemon.level}</div>
-            </div>
-            `;
-            }
+            </div>`;
+}
 
-            displayPokemons();
+pokemonsTab.sort((a, b) => a.level - b.level);
+displayPokemons(pokemonsTab);
+
+const searchBar = document.getElementById('search-bar');
+const selectType = document.getElementById('type-filter');
+const sortOrder = document.getElementById('sort-order');
+
+
+function filterAndSortPokemons() {
+    const recherche = searchBar.value;
+    let resultat = pokemonsTab.filter(pokemon => pokemon.name.toLowerCase().includes(recherche));
+
+    let type = selectType.value
+    resultat = resultat.filter(pokemon => pokemon.type.includes(type));
+
+    resultat = resultat.sort((a, b) => a.level - b.level);
+
+    displayPokemons(resultat);
+}
+
+filterAndSortPokemons();
+
+searchBar.addEventListener('input', filterAndSortPokemons);
+selectType.addEventListener('change', filterAndSortPokemons);
+sortOrder.addEventListener('change', filterAndSortPokemons);
+
+
